@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import Link from "./Link";
+import RouterNavLink from "./RouterNavLink";
 
 interface NavLinkProps {
   icon: ReactNode;
@@ -9,12 +9,16 @@ interface NavLinkProps {
 
 const NavLink = ({ icon, to, text }: NavLinkProps): JSX.Element => {
   return (
-    <Link
+    <RouterNavLink
       to={to}
-      className='text-gray hover:underline px-2 py-4 flex items-center gap-2 relative'>
+      className={({ isActive }) =>
+        ` text-gray hover:underline px-2 py-4 flex items-center gap-2 relative ${
+          isActive ? "text-green-500" : undefined
+        }`
+      }>
       {icon}
       <span className='hidden sm:inline'>{text}</span>
-    </Link>
+    </RouterNavLink>
   );
 };
 
