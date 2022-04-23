@@ -6,6 +6,7 @@ import Photo from "../pages/Photo";
 import AddPhoto from "../pages/AddPhoto";
 import Settings from "../pages/Settings";
 import Layout from "../layout/Layout";
+import SignUp from "../pages/SignUp";
 
 const Routes = (): JSX.Element => {
   return (
@@ -22,6 +23,9 @@ const Routes = (): JSX.Element => {
         <Route path='/photos/:id' element={<Photo />} />
         <Route path='/photos/add' element={<AddPhoto />} />
         <Route path='/settings' element={<Settings />} />
+        <Route path='/auth'>
+          <Route path='sign-up' element={<SignUp />} />
+        </Route>
       </Route>
     </RouterRoutes>
   );
