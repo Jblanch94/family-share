@@ -21,8 +21,8 @@ function SupabaseProvider({ children }: AppProviderProps): JSX.Element {
   );
 }
 
-function useAppContext() {
+function useSupabase() {
   return useContext(SupabaseContext);
 }
 
-export { SupabaseProvider, useAppContext };
+export { SupabaseProvider, useSupabase };

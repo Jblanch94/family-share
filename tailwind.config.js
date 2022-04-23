@@ -6,6 +6,7 @@ module.exports = {
         dark: "#2b2b2b",
         darkHover: "#363636",
         gray: "#cccccc",
+        disabled: "rgba(0, 0, 0, 0.26)",
       },
     },
   },
