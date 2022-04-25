@@ -10,6 +10,7 @@ import { UserService } from "../../services/User.service";
 import { SignUpFormState as FormState } from "../../types/forms";
 import { Family } from "../../types/resources";
 import Button from "../../components/core/Button";
+import LoadingIcon from "../../components/icons/LoadingIcon";
 import SignUpForm from "../../components/features/SignUpForm";
 import { PostgrestFilterBuilder } from "@supabase/postgrest-js";
 import FormErrorText from "../../components/core/FormErrorText";
@@ -18,6 +19,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const SignUp = (): JSX.Element => {
   const [serverError, setServerError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const methods = useForm<FormState>();
   const { supabase } = useSupabase();
   const { user } = useAuth();
@@ -27,6 +29,7 @@ const SignUp = (): JSX.Element => {
   const userService = new UserService(supabase);
 
   const onSubmit: SubmitHandler<FormState> = async (formData: FormState) => {
+    setLoading(true);
     // register user
     const signUpUser = authenticationService.signUp(
       formData.email,
@@ -43,13 +46,15 @@ const SignUp = (): JSX.Element => {
       setServerError(user.error.message);
 
       Sentry.captureMessage(user.error.message, Sentry.Severity.Error);
-      return;
+      setLoading(false);
+      throw user.error;
     }
     if (family.error) {
       setServerError(family.error.message);
 
       Sentry.captureMessage(family.error.message, Sentry.Severity.Error);
-      return;
+      setLoading(false);
+      throw family.error;
     }
 
     // set up user profile
@@ -66,9 +71,11 @@ const SignUp = (): JSX.Element => {
         createUserProfile.error.message,
         Sentry.Severity.Error
       );
-      return;
+      setLoading(false);
+      throw createUserProfile.error;
     }
 
+    setLoading(false);
     navigate("/");
   };
 
@@ -94,7 +101,7 @@ const SignUp = (): JSX.Element => {
               color='primary'
               size='medium'
               fullWidth>
-              Sign Up
+              {loading ? <LoadingIcon /> : "Sign Up"}
             </Button>
           </form>
         </FormProvider>
