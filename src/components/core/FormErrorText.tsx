@@ -10,7 +10,10 @@ const FormErrorText = ({
   if (!showError) return null;
 
   return (
-    <span role='alert' className='text-sm font-bold text-red-500 '>
+    <span
+      aria-label={text}
+      role='alert'
+      className='text-sm font-bold text-red-500 '>
       {text}
     </span>
   );
