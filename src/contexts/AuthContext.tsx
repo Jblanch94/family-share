@@ -49,8 +49,6 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       setUser(session?.user ?? null);
     });
 
-    console.log(user);
-
     return () => listener?.unsubscribe();
   }, [supabase.auth, user]);
 

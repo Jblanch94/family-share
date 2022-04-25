@@ -16,7 +16,6 @@ import FormErrorText from "../../components/core/FormErrorText";
 import "./sign-up.css";
 import { useAuth } from "../../contexts/AuthContext";
 
-//TODO: NEED TO CENTER FORM AND MAKE IT STAY CENTERED
 const SignUp = (): JSX.Element => {
   const [serverError, setServerError] = useState<string | null>(null);
   const methods = useForm<FormState>();
