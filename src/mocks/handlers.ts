@@ -28,6 +28,8 @@ export const handlers = [
           aud: "authenticated",
           user_metadata: {},
         },
+        session: null,
+        error: null,
       };
 
       return res(ctx.status(200), ctx.json(response));
@@ -65,8 +67,6 @@ export const handlers = [
           updated_at: req.body[0].updated_at,
         },
       ];
-
-      console.log(response);
 
       return res(ctx.status(201), ctx.json(response));
     }

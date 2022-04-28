@@ -1,4 +1,4 @@
-import { User } from "@supabase/supabase-js";
+import { Session, User, ApiError } from "@supabase/supabase-js";
 
 export interface SignUpRequestBody {
   email: string;
@@ -7,4 +7,6 @@ export interface SignUpRequestBody {
 
 export interface SignUpResponseBody {
   user: User | null;
+  session: Session | null;
+  error: ApiError | null;
 }
