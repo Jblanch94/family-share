@@ -56,7 +56,8 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   };
 
   const signUpUser = async (email: string, password: string) => {
-    return await supabase.auth.signUp({ email, password });
+    const response = await supabase.auth.signUp({ email, password });
+    return response;
   };
 
   const createFamily = async (name: string) => {
@@ -90,7 +91,9 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       signUpUser(email, password),
       createFamily(familyName),
     ]);
-    console.log("user response", userResponse);
+
+    console.log(userResponse.user);
+
     if (userResponse.error || familyResponse.error) {
       throw userResponse.error ?? familyResponse.error;
     }

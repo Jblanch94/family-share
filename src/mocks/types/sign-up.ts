@@ -5,8 +5,8 @@ export interface SignUpRequestBody {
   password: string;
 }
 
-export interface SignUpResponseBody {
+export type SignUpResponseBody = {
   user: User | null;
   session: Session | null;
   error: ApiError | null;
-}
+};

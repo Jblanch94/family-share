@@ -12,13 +12,12 @@ import {
 const baseUrl = "https://ycugklkeqbtlziiutnvx.supabase.co";
 
 export const handlers = [
-  rest.post<SignUpRequestBody, any, SignUpResponseBody>(
+  rest.post<SignUpRequestBody, any, any>(
     `${baseUrl}/auth/v1/signup`,
     async (req, res, ctx) => {
       const response: SignUpResponseBody = {
         user: {
           created_at: Date.now().toString(),
-          updated_at: Date.now().toString(),
           email: req.body.email,
           id: "fjdkasfjdkslfl;a",
           app_metadata: {
@@ -31,8 +30,12 @@ export const handlers = [
         session: null,
         error: null,
       };
-
-      return res(ctx.status(200), ctx.json(response));
+      const responseSent = await res(
+        ctx.status(200),
+        ctx.json({ ...response })
+      );
+      console.log(responseSent);
+      return responseSent;
     }
   ),
 

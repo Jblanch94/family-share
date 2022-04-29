@@ -15,7 +15,15 @@ import { useAuth } from "../../contexts/AuthContext";
 const SignUp = (): JSX.Element => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const methods = useForm<FormState>();
+
+  const defaultValues = {
+    familyName: "",
+    email: "",
+    name: "",
+    password: "",
+    confirmPassword: "",
+  };
+  const methods = useForm<FormState>({ defaultValues });
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
@@ -27,7 +35,6 @@ const SignUp = (): JSX.Element => {
       navigate("/");
     } catch (err) {
       const error = err as ApiError;
-      console.error(err);
       setServerError(error.message ?? err);
       Sentry.captureMessage(error.message ?? err, Sentry.Severity.Error);
     } finally {
