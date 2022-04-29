@@ -74,4 +74,14 @@ export const handlers = [
       return res(ctx.status(201), ctx.json(response));
     }
   ),
+
+  rest.post(`${baseUrl}/auth/v1/login`, (req, res, ctx) => {
+    const response = {
+      user: "mockuser",
+      session: null,
+      error: null,
+    };
+
+    return res(ctx.status(200), ctx.json(response));
+  }),
 ];
