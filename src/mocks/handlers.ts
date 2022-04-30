@@ -75,7 +75,7 @@ export const handlers = [
     }
   ),
 
-  rest.post(`${baseUrl}/auth/v1/login`, (req, res, ctx) => {
+  rest.post(`${baseUrl}/auth/v1/token`, (req, res, ctx) => {
     const response = {
       user: "mockuser",
       session: null,

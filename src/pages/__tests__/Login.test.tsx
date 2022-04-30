@@ -7,14 +7,14 @@ import App from "../../App";
 import { server } from "../../mocks/server";
 
 describe("Login Page", () => {
-  it("Invalid password and email combination renders 'Incorrect email and password combination'", async () => {
+  it("Invalid password and email combination renders 'Invalid login credentials'", async () => {
     server.use(
       rest.post(
-        "https://ycugklkeqbtlziiutnvx.supabase.co/auth/v1/login",
+        "https://ycugklkeqbtlziiutnvx.supabase.co/auth/v1/token",
         (req, res, ctx) => {
-          res(
+          return res(
             ctx.status(500),
-            ctx.json({ message: "Incorrect password and email combination" })
+            ctx.json({ message: "Invalid login credentials" })
           );
         }
       )
@@ -33,7 +33,7 @@ describe("Login Page", () => {
     await user.click(loginButton);
 
     const invalidCredentials = await screen.findByText(
-      /Incorrect email and password combination/i
+      /invalid login credentials/i
     );
     expect(invalidCredentials).toBeInTheDocument();
   });
@@ -52,7 +52,7 @@ describe("Login Page", () => {
     await user.type(passwordInput, "secretPassword123");
     await user.click(loginButton);
 
-    const homePage = await screen.findByText("Album's Page");
+    const homePage = await screen.findByText("Albums Page");
     expect(homePage).toBeInTheDocument();
   });
 
@@ -63,7 +63,7 @@ describe("Login Page", () => {
     const user = userEvent.setup();
 
     const signUpLink = screen.getByRole("link", { name: /sign up/i });
-    user.click(signUpLink);
+    await user.click(signUpLink);
     const signUpFormHeader = await screen.findByRole("heading", {
       name: /sign up/i,
     });

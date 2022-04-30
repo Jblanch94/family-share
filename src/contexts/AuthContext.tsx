@@ -11,7 +11,18 @@ import { useSupabase } from "./SupabaseContext";
 
 interface AuthContextType {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   signUp: (object: any) => Promise<void>;
+  signin: (
+    email: string,
+    password: string
+  ) => Promise<{
+    session: Session | null;
+    user: User | null;
+    provider?: Provider | undefined;
+    url?: string | null | undefined;
+    error: ApiError | null;
+  }>;
 }
 
 interface AuthProviderProps {
@@ -43,16 +54,8 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     supabase.auth.signOut();
   };
 
-  const signin = (
-    data: any
-  ): Promise<{
-    session: Session | null;
-    user: User | null;
-    provider?: Provider | undefined;
-    url?: string | null | undefined;
-    error: ApiError | null;
-  }> => {
-    return supabase.auth.signIn(data);
+  const signin = (email: string, password: string) => {
+    return supabase.auth.signIn({ email, password });
   };
 
   const signUpUser = async (email: string, password: string) => {
@@ -92,8 +95,6 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       createFamily(familyName),
     ]);
 
-    console.log(userResponse.user);
-
     if (userResponse.error || familyResponse.error) {
       throw userResponse.error ?? familyResponse.error;
     }
@@ -120,7 +121,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     return () => listener?.unsubscribe();
   }, [supabase.auth, user]);
 
-  const value = { user, signOut, signin, signUp };
+  const value = { user, signOut, signin, signUp, setUser };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
