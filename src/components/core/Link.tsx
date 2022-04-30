@@ -6,8 +6,9 @@ import {
 interface LinkProps extends RouterLinkProps {}
 
 const Link = ({ children, className, ...rest }: LinkProps): JSX.Element => {
+  const classNames = `text-xl ${className}`;
   return (
-    <RouterLink className={`text-xl ${className}`} {...rest}>
+    <RouterLink className={classNames} {...rest}>
       {children}
     </RouterLink>
   );
