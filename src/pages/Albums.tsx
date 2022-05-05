@@ -1,5 +1,17 @@
+import { Link } from "react-router-dom";
+
+import Fab from "../components/core/Fab";
+import Header from "../components/features/Header";
+
 const Albums = (): JSX.Element => {
-  return <h1>Albums Page</h1>;
+  return (
+    <>
+      <Header title='Albums' />
+      <Link to='/albums/add'>
+        <Fab />
+      </Link>
+    </>
+  );
 };
 
 export default Albums;

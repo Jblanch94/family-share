@@ -5,7 +5,7 @@ import {
   FormState,
 } from "react-hook-form";
 
-import Input from "../core/Input";
+import Input from "../../core/Input";
 
 interface Methods {
   register: UseFormRegister<FieldValues>;
