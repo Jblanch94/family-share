@@ -84,4 +84,17 @@ export const handlers = [
 
     return res(ctx.status(200), ctx.json(response));
   }),
+
+  rest.post(`${baseUrl}/rest/v1/albums`, (req, res, ctx) => {
+    const response = [
+      {
+        id: "9",
+        name: "album 1",
+        created_at: new Date(Date.now()),
+        user_id: "mockUser123",
+      },
+    ];
+
+    return res(ctx.status(201), ctx.json(response));
+  }),
 ];
