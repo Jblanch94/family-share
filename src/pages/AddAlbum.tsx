@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ApiError } from "@supabase/supabase-js";
@@ -17,9 +18,11 @@ interface Album {
   name: string;
   created_at: Date;
   user_id: string;
+  family_id: string;
 }
 
 const AddAlbum = () => {
+  const [familyId, setFamilyId] = useState<string | undefined>(undefined);
   const defaultValues = {
     name: "",
   };
@@ -36,6 +39,7 @@ const AddAlbum = () => {
           name: formData.name,
           created_at: new Date(Date.now()),
           user_id: user?.id,
+          family_id: familyId,
         },
       ]);
       if (error) throw error;
@@ -50,6 +54,21 @@ const AddAlbum = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    const fetchFamily = async () => {
+      if (!user || !user.id) throw new Error("User is not logged in!");
+      const { data, error } = await supabase
+        .from("profiles")
+        .select(`family_id`)
+        .eq("id", user?.id);
+      if (error) throw error;
+
+      setFamilyId(data[0].family_id);
+    };
+
+    fetchFamily();
+  }, [supabase, user]);
 
   return (
     <>

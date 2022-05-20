@@ -1,5 +1,4 @@
 import { UseFormRegister, FieldValues } from "react-hook-form";
-import Button from "../../core/Button";
 
 import Input from "../../core/Input";
 import SearchIcon from "../../icons/SearchIcon";
