@@ -1,9 +1,19 @@
-const LoadingIcon = (): JSX.Element => {
+interface LoadingIconProps {
+  color?: "white" | "dark";
+  size?: "small" | "large";
+}
+
+const LoadingIcon = ({
+  color = "dark",
+  size = "small",
+}: LoadingIconProps): JSX.Element => {
   return (
     <div className='flex justify-center'>
       <svg
         data-testid='loading-icon'
-        className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+        className={`animate-spin -ml-1 mr-3 ${
+          size === "small" ? "h-5 w-5" : "h-16 w-16"
+        } ${color === "white" ? "text-white" : "text-blue-500"}`}
         xmlns='http://www.w3.org/2000/svg'
         fill='none'
         viewBox='0 0 24 24'>
