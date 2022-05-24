@@ -1,0 +1,6 @@
+export enum AlbumsActionTypes {
+  ERROR = "ERROR",
+  FETCH_PROFILE = "FETCH_PROFILE",
+  FETCH_ALBUMS = "FETCH_ALBUMS",
+  SET_LOADING = "SET_LOADING",
+}
