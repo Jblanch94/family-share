@@ -1,6 +1,7 @@
 import AlbumsListItem from "./AlbumsListItem";
 import LoadingIcon from "../../icons/LoadingIcon";
 import { Album } from "../../../types/resources";
+import { ReactComponent as NoResults } from "../../../assets/img/void.svg";
 
 interface AlbumsListProps {
   loading: boolean;
@@ -8,6 +9,14 @@ interface AlbumsListProps {
 }
 
 const AlbumsList = ({ loading, albums }: AlbumsListProps) => {
+  if (albums.length < 1) {
+    return (
+      <div className='flex flex-col items-center pt-6'>
+        <NoResults />
+        <p className='text-center pt-6'>No Results Found</p>
+      </div>
+    );
+  }
   return (
     <>
       {loading && (
