@@ -85,16 +85,59 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(response));
   }),
 
-  rest.post(`${baseUrl}/rest/v1/albums`, (req, res, ctx) => {
-    const response = [
+  rest.post(
+    "https://ycugklkeqbtlziiutnvx.supabase.co/rest/v1/albums",
+    (req, res, ctx) => {
+      const response = [
+        {
+          id: "9",
+          name: "album 1",
+          created_at: new Date(Date.now()),
+          user_id: "mockUser123",
+        },
+      ];
+
+      return res(ctx.status(201), ctx.json(response));
+    }
+  ),
+
+  rest.get(`${baseUrl}/rest/v1/albums`, (req, res, ctx) => {
+    const data = [
       {
-        id: "9",
+        id: 1,
         name: "album 1",
-        created_at: new Date(Date.now()),
-        user_id: "mockUser123",
+      },
+      {
+        id: 2,
+        name: "album 2",
+      },
+      {
+        id: 3,
+        name: "album 3",
+      },
+    ];
+    return res(ctx.status(200), ctx.json(data));
+  }),
+  rest.post(`${baseUrl}/rest/v1/rpc/search_albums`, (req, res, ctx) => {
+    const data = [
+      {
+        id: 1,
+        name: "album 1",
       },
     ];
 
-    return res(ctx.status(201), ctx.json(response));
+    return res(ctx.status(200), ctx.json(data));
+  }),
+  rest.get(`${baseUrl}/rest/v1/profiles`, (req, res, ctx) => {
+    const data = [
+      {
+        id: 1,
+        name: "Johnny Blanchard",
+        isadmin: true,
+        updated_at: new Date(Date.now()).toLocaleString(),
+        family_id: 25,
+      },
+    ];
+    return res(ctx.status(200), ctx.json(data));
   }),
 ];
