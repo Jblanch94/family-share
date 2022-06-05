@@ -16,6 +16,7 @@ interface InputProps {
   type?: HTMLInputTypeAttribute;
   validationRules?: RegisterOptions;
   error?: FieldError | undefined;
+  showLabel?: boolean;
 }
 
 const Input = ({
@@ -24,14 +25,16 @@ const Input = ({
   name,
   validationRules = {},
   error = undefined,
+  showLabel = true,
   ...rest
 }: InputProps): JSX.Element => {
   return (
     <div className='mb-2'>
       <label
         htmlFor={name}
-        className='block text-gray-700 text-sm font-bold mb-1'>
-        {labelText}
+        className='block text-gray-700 text-sm font-bold mb-1'
+        aria-label={showLabel ? "" : labelText}>
+        {showLabel ? labelText : null}
       </label>
       <input
         id={name}

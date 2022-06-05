@@ -1,13 +1,21 @@
 /* eslint-disable testing-library/no-unnecessary-act */
+import { User } from "@supabase/supabase-js";
 import { render, screen, act } from "../../utils/test-utils";
 import userEvent from "@testing-library/user-event";
-
 import App from "../../App";
 
+const initialUser: User = {
+  id: "abc123",
+  app_metadata: {},
+  user_metadata: {},
+  created_at: new Date().toLocaleString(),
+  aud: "",
+};
+
 describe("Add Album Page", () => {
-  it("renders form validation error when name field is empty", async () => {
+  it.only("renders form validation error when name field is empty", async () => {
     await act(async () => {
-      render(<App />, { initialRoutes: ["/albums/add"] });
+      render(<App />, { initialRoutes: ["/albums/add"], initialUser });
     });
 
     const user = userEvent.setup();
@@ -20,7 +28,7 @@ describe("Add Album Page", () => {
 
   it("successful form submission re-directs user to home page", async () => {
     await act(async () => {
-      render(<App />, { initialRoutes: ["/albums/add"] });
+      render(<App />, { initialRoutes: ["/albums/add"], initialUser });
     });
 
     const user = userEvent.setup();
@@ -37,7 +45,10 @@ describe("Add Album Page", () => {
   it("Add Album text appears on page load and a loading spinner appears during form submission", async () => {
     let appContainer: HTMLElement;
     await act(async () => {
-      const { container } = render(<App />, { initialRoutes: ["/albums/add"] });
+      const { container } = render(<App />, {
+        initialRoutes: ["/albums/add"],
+        initialUser,
+      });
       appContainer = container;
     });
 

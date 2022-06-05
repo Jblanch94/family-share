@@ -52,7 +52,7 @@ describe("Login Page", () => {
     await user.type(passwordInput, "secretPassword123");
     await user.click(loginButton);
 
-    const homePage = await screen.findByText("Albums Page");
+    const homePage = await screen.findByText("Albums");
     expect(homePage).toBeInTheDocument();
   });
 

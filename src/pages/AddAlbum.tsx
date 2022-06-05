@@ -64,6 +64,8 @@ const AddAlbum = () => {
         .eq("id", user?.id);
       if (error) throw error;
 
+      console.log("test data", data);
+
       setFamilyId(data[0].family_id);
     };
 

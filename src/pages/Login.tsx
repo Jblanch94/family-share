@@ -31,9 +31,8 @@ const Login = (): JSX.Element => {
     try {
       setLoading(true);
       const { error } = await signin(data.email, data.password);
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
+
       setServerError(null);
       navigate("/");
     } catch (err) {

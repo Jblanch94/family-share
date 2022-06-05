@@ -27,6 +27,7 @@ interface AuthContextType {
 
 interface AuthProviderProps {
   children: ReactNode;
+  initialUser?: User | null;
 }
 
 interface Profile {
@@ -46,8 +47,11 @@ interface Family {
 
 const AuthContext = createContext<AuthContextType>(null!);
 
-const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
-  const [user, setUser] = useState<User | null>(null);
+const AuthProvider = ({
+  children,
+  initialUser,
+}: AuthProviderProps): JSX.Element => {
+  const [user, setUser] = useState<User | null>(initialUser ?? null);
   const { supabase } = useSupabase();
 
   const signOut = (): void => {
@@ -122,6 +126,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   }, [supabase.auth, user]);
 
   const value = { user, signOut, signin, signUp, setUser };
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
