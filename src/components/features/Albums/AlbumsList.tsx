@@ -28,7 +28,12 @@ const AlbumsList = ({ loading, albums }: AlbumsListProps) => {
         {!loading &&
           albums?.map((album) => {
             return (
-              <AlbumsListItem key={album.id} name={album.name} numPhotos={5} />
+              <AlbumsListItem
+                key={album.id}
+                id={album.id}
+                name={album.name}
+                numPhotos={5}
+              />
             );
           })}
       </div>

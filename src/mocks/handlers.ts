@@ -140,4 +140,31 @@ export const handlers = [
     ];
     return res(ctx.status(200), ctx.json(data));
   }),
+  rest.get(`${baseUrl}/rest/v1/photos`, (req, res, ctx) => {
+    const data = [
+      {
+        id: 1,
+        path: "example.com",
+        title: "photo 1",
+        description: "photo 1",
+        album_id: 2,
+      },
+      {
+        id: 2,
+        path: "example.com",
+        title: "photo 2",
+        description: "photo 2",
+        album_id: 2,
+      },
+      {
+        id: 3,
+        path: "example.com",
+        title: "photo 3",
+        description: "photo 3",
+        album_id: 2,
+      },
+    ];
+
+    return res(ctx.status(200), ctx.json(data));
+  }),
 ];
