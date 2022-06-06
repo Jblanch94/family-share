@@ -4,3 +4,10 @@ export enum AlbumsActionTypes {
   FETCH_ALBUMS = "FETCH_ALBUMS",
   SET_LOADING = "SET_LOADING",
 }
+
+export enum AlbumActionType {
+  ERROR = "ERROR",
+  SET_LOADING = "SET_LOADING",
+  FETCH_ALBUM = "FETCH_ALBUM",
+  FETCH_ALBUM_PHOTOS = "FETCH_ALBUM_PHOTOS",
+}
