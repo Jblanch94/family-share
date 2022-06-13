@@ -87,21 +87,17 @@ const Albums = (): JSX.Element => {
   // fetch all albums associated with the family of the logged in user
   useEffect(() => {
     const fetchAlbums = async () => {
+      if (state.profile === null) throw new Error("Profile is null");
       const { data, error } = await supabase
         .from<Album>("albums")
         .select(`id, name, created_at`)
-        .eq(
-          "family_id",
-          state.profile && state.profile.family_id
-            ? state.profile.family_id
-            : ""
-        );
+        .eq("family_id", state.profile.family_id);
       if (error) throw error;
       dispatch({ type: ActionTypes.FETCH_ALBUMS, payload: data });
       dispatch({ type: ActionTypes.SET_LOADING, payload: false });
     };
 
-    fetchAlbums();
+    if (state.profile) fetchAlbums();
   }, [supabase, state.profile, dispatch]);
 
   return (
