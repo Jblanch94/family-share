@@ -1,4 +1,5 @@
 import { rest } from "msw";
+import { Bucket } from "@supabase/storage-js";
 
 import {
   SignUpRequestBody,
@@ -8,6 +9,7 @@ import {
   CreateProfileRequestBody,
   CreateProfileResponseBody,
 } from "./types";
+import { Photo } from "../types/resources";
 
 const baseUrl = "https://ycugklkeqbtlziiutnvx.supabase.co";
 
@@ -166,5 +168,37 @@ export const handlers = [
     ];
 
     return res(ctx.status(200), ctx.json(data));
+  }),
+  rest.get(baseUrl + "/storage/v1/bucket/photos", (req, res, ctx) => {
+    const bucket: Bucket = {
+      id: "abc123",
+      name: "photos",
+      owner: "mockuser",
+      created_at: new Date(Date.now()).toISOString(),
+      updated_at: new Date(Date.now()).toISOString(),
+      public: false,
+    };
+    return res(ctx.status(200), ctx.json(bucket));
+  }),
+  rest.post(baseUrl + "/storage/v1/object/*", (req, res, ctx) => {
+    const uploadedPhoto = {
+      Key: "mockphoto123",
+    };
+
+    return res(ctx.status(201), ctx.json(uploadedPhoto));
+  }),
+  rest.post(baseUrl + "/rest/v1/photos", (req, res, ctx) => {
+    const data: Photo[] = [
+      {
+        id: "1",
+        path: "https://example.com",
+        title: "Title 1",
+        description: "Description 1",
+        user_id: "mockuser123",
+        album_id: "25",
+      },
+    ];
+
+    return res(ctx.status(201), ctx.json(data));
   }),
 ];
