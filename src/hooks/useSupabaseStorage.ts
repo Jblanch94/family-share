@@ -13,8 +13,10 @@ const useSupabaseStorage = (supabase: SupabaseClient) => {
     });
   }
 
-  function fetchPublicUrl(bucketId: string, photoKey: string) {
-    return supabase.storage.from(bucketId).getPublicUrl(photoKey);
+  function fetchSignedUrl(bucket: string, photoKey: string) {
+    return supabase.storage
+      .from(bucket)
+      .createSignedUrl(photoKey, 60 * 60 * 60 * 24 * 365 * 10);
   }
 
   function createPhoto(data: {
@@ -27,7 +29,7 @@ const useSupabaseStorage = (supabase: SupabaseClient) => {
     return supabase.from<Photo>("photos").insert([data]);
   }
 
-  return { fetchBucket, uploadPhoto, fetchPublicUrl, createPhoto };
+  return { fetchBucket, uploadPhoto, fetchSignedUrl, createPhoto };
 };
 
 export default useSupabaseStorage;

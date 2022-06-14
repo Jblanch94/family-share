@@ -1,5 +1,13 @@
+import { Fragment } from "react";
+
+import Header from "../components/features/Header";
+
 const Photo = (): JSX.Element => {
-  return <h1>Photo Page</h1>;
+  return (
+    <Fragment>
+      <Header title='Photo Title' canGoBack />
+    </Fragment>
+  );
 };
 
 export default Photo;

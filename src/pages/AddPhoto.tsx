@@ -17,7 +17,7 @@ const AddPhoto = (): JSX.Element => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const { supabase } = useSupabase();
   const { user } = useAuth();
-  const { fetchBucket, uploadPhoto, fetchPublicUrl, createPhoto } =
+  const { fetchBucket, uploadPhoto, fetchSignedUrl, createPhoto } =
     useSupabaseStorage(supabase);
   const methods = useForm<AddPhotoFormState>();
   const navigate = useNavigate();
@@ -33,21 +33,23 @@ const AddPhoto = (): JSX.Element => {
 
       const photoFile = formData.photo[0];
       const { data: uploadedPhoto, error: uploadedPhotoError } =
-        await uploadPhoto(data.id, photoFile);
+        await uploadPhoto("photos", photoFile);
       if (uploadedPhotoError || uploadedPhoto === null)
         throw uploadedPhotoError;
-      const { data: urlData, error: urlError } = fetchPublicUrl(
-        data.id,
-        uploadedPhoto.Key
+
+      const { signedURL, error: urlError } = await fetchSignedUrl(
+        "photos",
+        uploadedPhoto.Key.split("/")[1]
       );
-      if (urlError || urlData === null) throw urlError;
+
+      if (urlError || signedURL === null) throw urlError;
 
       const { error: photoError } = await createPhoto({
         title: formData.title,
         description: formData.description,
         user_id: user?.id,
         album_id: formData.album.id,
-        path: urlData.publicURL,
+        path: signedURL,
       });
       if (photoError) throw photoError;
       navigate("/", { replace: true });
