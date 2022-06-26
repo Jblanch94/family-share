@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   onClick?: () => void;
   children: ReactNode;
+  classes?: string;
 }
 
 const Button = ({
@@ -20,6 +21,7 @@ const Button = ({
   disabled = false,
   onClick,
   children,
+  ...rest
 }: ButtonProps): JSX.Element => {
   const disabledClasses = `${disabled ? "bg-disabled cursor-not-allowed" : ""}`;
   const classes = `bold ${
@@ -57,7 +59,9 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`${classes} ${disabledClasses} ${getColorClasses()} ${getSizeClasses()}`}>
+      className={`${classes} ${disabledClasses} ${getColorClasses()} ${getSizeClasses()} ${
+        rest.classes
+      } ${disabled ? "bg-gray" : ""}`}>
       {children}
     </button>
   );

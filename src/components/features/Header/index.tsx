@@ -1,13 +1,19 @@
+import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ArrowLeft from "../../icons/ArrowLeft";
 
 interface HeaderProps {
-  title: string;
+  title: string | JSX.Element;
   canGoBack?: boolean;
+  children?: ReactNode;
 }
 
-const Header = ({ title, canGoBack = false }: HeaderProps): JSX.Element => {
+const Header = ({
+  title,
+  canGoBack = false,
+  children,
+}: HeaderProps): JSX.Element => {
   const navigate = useNavigate();
   return (
     <>
@@ -18,6 +24,7 @@ const Header = ({ title, canGoBack = false }: HeaderProps): JSX.Element => {
           </button>
         )}
         <h1 className='text-xl mx-auto'>{title}</h1>
+        {children}
       </header>
       <hr />
     </>

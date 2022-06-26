@@ -11,8 +11,8 @@ const LoadingIcon = ({
     <div className='flex justify-center'>
       <svg
         data-testid='loading-icon'
-        className={`animate-spin -ml-1 mr-3 ${
-          size === "small" ? "h-5 w-5" : "h-16 w-16"
+        className={`animate-spin  ${
+          size === "small" ? "h-6 w-6" : "h-16 w-16"
         } ${color === "white" ? "text-white" : "text-blue-500"}`}
         xmlns='http://www.w3.org/2000/svg'
         fill='none'
