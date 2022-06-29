@@ -10,11 +10,15 @@ interface CommentsListProps {
 const CommentsList = ({ comments }: CommentsListProps): JSX.Element => {
   return (
     <Fragment>
-      <ul className='divide-y p-1'>
-        {comments.map((comment) => (
-          <CommentsListItem key={comment.id} {...comment} />
-        ))}
-      </ul>
+      {!comments.length ? (
+        <div>No comments</div>
+      ) : (
+        <ul className='divide-y p-1'>
+          {comments.map((comment) => (
+            <CommentsListItem key={comment.id} {...comment} />
+          ))}
+        </ul>
+      )}
     </Fragment>
   );
 };

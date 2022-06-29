@@ -22,7 +22,7 @@ const CommentsListItem = ({
     );
   }, [created_at]);
   return (
-    <li className='py-2 pl-2'>
+    <li className='py-2 pl-2' data-testid='comment'>
       <div className='flex items-center justify-between pb-4'>
         <h4 className='inline-block font-semibold'>{user.name}</h4>
         <div className='font-normal text-md capitalize text-commentDateGray mr-2'>

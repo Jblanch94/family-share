@@ -58,8 +58,9 @@ const AuthProvider = ({
     supabase.auth.signOut();
   };
 
-  const signin = (email: string, password: string) => {
-    return supabase.auth.signIn({ email, password });
+  const signin = async (email: string, password: string) => {
+    const response = await supabase.auth.signIn({ email, password });
+    return response;
   };
 
   const signUpUser = async (email: string, password: string) => {

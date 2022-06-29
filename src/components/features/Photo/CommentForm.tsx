@@ -49,7 +49,7 @@ const CommentForm = ({
   }
 
   return (
-    <form onSubmit={methods.handleSubmit(onSubmit)}>
+    <form onSubmit={methods.handleSubmit(onSubmit)} name='add-comment'>
       <div className='mx-3 my-2 relative'>
         <label htmlFor='comment' />
         <textarea

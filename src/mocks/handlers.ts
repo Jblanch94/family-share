@@ -1,8 +1,8 @@
 import { rest } from "msw";
 import { Bucket } from "@supabase/storage-js";
+import { v4 as uuidv4 } from "uuid";
 
 import {
-  SignUpRequestBody,
   SignUpResponseBody,
   CreateFamilyRequestBody,
   CreateFamilyResponseBody,
@@ -14,32 +14,25 @@ import { Photo } from "../types/resources";
 const baseUrl = "https://ycugklkeqbtlziiutnvx.supabase.co";
 
 export const handlers = [
-  rest.post<SignUpRequestBody, any, any>(
-    `${baseUrl}/auth/v1/signup`,
-    async (req, res, ctx) => {
-      const response: SignUpResponseBody = {
-        user: {
-          created_at: Date.now().toString(),
-          email: req.body.email,
-          id: "fjdkasfjdkslfl;a",
-          app_metadata: {
-            provider: "email",
-            providers: ["email"],
-          },
-          aud: "authenticated",
-          user_metadata: {},
+  rest.post(`${baseUrl}/auth/v1/signup`, async (req, res, ctx) => {
+    const response: SignUpResponseBody = {
+      user: {
+        created_at: Date.now().toString(),
+        email: "123@example.com",
+        id: "fjdkasfjdkslfl;a",
+        app_metadata: {
+          provider: "email",
+          providers: ["email"],
         },
-        session: null,
-        error: null,
-      };
-      const responseSent = await res(
-        ctx.status(200),
-        ctx.json({ ...response })
-      );
-      console.log(responseSent);
-      return responseSent;
-    }
-  ),
+        aud: "authenticated",
+        user_metadata: {},
+      },
+      session: null,
+      error: null,
+    };
+    const responseSent = await res(ctx.status(200), ctx.json({ ...response }));
+    return responseSent;
+  }),
 
   rest.post<CreateFamilyRequestBody[], any, CreateFamilyResponseBody[]>(
     `https://ycugklkeqbtlziiutnvx.supabase.co/rest/v1/families`,
@@ -142,13 +135,14 @@ export const handlers = [
     ];
     return res(ctx.status(200), ctx.json(data));
   }),
-  rest.get(`${baseUrl}/rest/v1/photos`, (req, res, ctx) => {
-    const data = [
+  rest.get(baseUrl + "/rest/v1/photos", (req, res, ctx) => {
+    const id = req.url.searchParams.get("id");
+    let data = [
       {
         id: 1,
         path: "example.com",
         title: "photo 1",
-        description: "photo 1",
+        description: "description 1",
         album_id: 2,
       },
       {
@@ -167,7 +161,230 @@ export const handlers = [
       },
     ];
 
+    if (id) {
+      data = data.filter((d) => d.id !== parseInt(id));
+    }
+
     return res(ctx.status(200), ctx.json(data));
+  }),
+  rest.patch(baseUrl + "/rest/v1/photos", (req, res, ctx) => {
+    const data = [
+      {
+        id: 1,
+        title: "new title",
+        description: "new description",
+      },
+    ];
+    return res(ctx.delay(200), ctx.status(200), ctx.json(data));
+  }),
+  rest.get(baseUrl + "/rest/v1/comments", async (req, res, ctx) => {
+    const offset = req.url.searchParams.get("offset");
+    let data;
+    offset === "0"
+      ? (data = [
+          {
+            id: uuidv4(),
+            content: "Comment 1",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 2",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 3",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 4",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 5",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 6",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 7",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 8",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 9",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 10",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+        ])
+      : (data = [
+          {
+            id: uuidv4(),
+            content: "Comment 11",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 12",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 13",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 14",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 15",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 16",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 17",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 18",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 19",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+          {
+            id: uuidv4(),
+            content: "Comment 20",
+            created_at: Date.now(),
+            user: {
+              id: 1,
+              name: "Mockuser123",
+            },
+          },
+        ]);
+    return res(ctx.delay(500), ctx.status(200), ctx.json(data));
+  }),
+  rest.get(baseUrl + "/rest/v1/favorites", (req, res, ctx) => {
+    const data = [
+      {
+        user_id: 1,
+        photo_id: 1,
+      },
+    ];
+
+    return res(ctx.status(200), ctx.json(data));
+  }),
+  rest.delete(baseUrl + "/rest/v1/favorites", (req, res, ctx) => {
+    const data = [
+      {
+        user_id: 1,
+        photo_id: 1,
+      },
+    ];
+    return res(ctx.delay(500), ctx.status(204), ctx.json(data));
   }),
   rest.get(baseUrl + "/storage/v1/bucket/photos", (req, res, ctx) => {
     const bucket: Bucket = {
