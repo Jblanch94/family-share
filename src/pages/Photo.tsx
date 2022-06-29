@@ -52,7 +52,6 @@ function reducer(state: State, action: PhotoAction): State {
 
 const Photo = (): JSX.Element => {
   const LIMIT = 10;
-  const [index, setIndex] = useState(LIMIT);
   const [isOpen, setIsOpen] = useState(false);
 
   const [{ photo, comments, isLoading, isFavorited }, dispatch] = useReducer(
@@ -103,7 +102,7 @@ const Photo = (): JSX.Element => {
           fetchFavoriteStatusResponse,
         ] = await Promise.all([
           fetchPhoto(),
-          fetchComments(0, index - 1),
+          fetchComments(0, LIMIT - 1),
           fetchFavoriteStatus(),
         ]);
         if (fetchPhotoResponse.error) throw fetchPhotoResponse.error;
@@ -131,7 +130,7 @@ const Photo = (): JSX.Element => {
     };
 
     handleConcurrentRequests();
-  }, [id, user?.id, supabase, index, fetchComments]);
+  }, [id, user?.id, supabase, fetchComments]);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
@@ -141,16 +140,17 @@ const Photo = (): JSX.Element => {
     setIsOpen(true);
   }, []);
 
-  async function handleLoadMoreComments() {
-    const newIndex = index + LIMIT;
-    const response = await fetchComments(index, newIndex - 1);
+  const handleLoadMoreComments = useCallback(async () => {
+    const response = await fetchComments(
+      comments.length,
+      comments.length + LIMIT - 1
+    );
     if (response.error) throw response.error;
-    setIndex(newIndex);
     dispatch({
       type: PhotoActionTypes.FETCH_COMMENTS,
       payload: response.data,
     });
-  }
+  }, [fetchComments, comments.length]);
 
   const updateFavoriteStatus = useCallback(async () => {
     try {

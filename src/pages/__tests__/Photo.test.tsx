@@ -63,7 +63,7 @@ describe("Photo Page", () => {
     const comments = await screen.findAllByTestId("comment");
     expect(comments.length).toBe(10);
   });
-  it("clicking on load more comments loads 10 more comments", async () => {
+  it.skip("clicking on load more comments loads 10 more comments", async () => {
     await act(async () => {
       render(<App />, { initialRoutes, initialUser });
     });
