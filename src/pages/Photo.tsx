@@ -1,6 +1,5 @@
 import { Fragment, useState, useCallback, useReducer, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { PostgrestResponse } from "@supabase/supabase-js";
 
 import { useAuth } from "../contexts/AuthContext";
 import { useSupabase } from "../contexts/SupabaseContext";
@@ -32,7 +31,10 @@ function reducer(state: State, action: PhotoAction): State {
     case PhotoActionTypes.SET_LOADING:
       return { ...state, isLoading: action.payload };
     case PhotoActionTypes.FETCH_COMMENTS:
-      return { ...state, comments: action.payload };
+      return {
+        ...state,
+        comments: [...state.comments, ...action.payload],
+      };
     case PhotoActionTypes.ADD_COMMENT:
       return { ...state, comments: [...state.comments, action.payload] };
     case PhotoActionTypes.FETCH_PHOTO:
@@ -49,7 +51,10 @@ function reducer(state: State, action: PhotoAction): State {
 }
 
 const Photo = (): JSX.Element => {
+  const LIMIT = 10;
+  const [index, setIndex] = useState(LIMIT);
   const [isOpen, setIsOpen] = useState(false);
+
   const [{ photo, comments, isLoading, isFavorited }, dispatch] = useReducer(
     reducer,
     initialState
@@ -59,6 +64,19 @@ const Photo = (): JSX.Element => {
   const { id } = useParams();
 
   // concurrent requests to get the photo details, comments for the photo and records for if the photo is favorited by the current user
+  const fetchComments = useCallback(
+    async (startIndex: number, endIndex: number) => {
+      const response = await supabase
+        .from<Comment>("comments")
+        .select("id, content, created_at, user:user_id (id, name)")
+        .eq("photo_id", id)
+        .range(startIndex, endIndex)
+        .order("created_at", { ascending: true });
+
+      return response;
+    },
+    [id, supabase]
+  );
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -68,12 +86,6 @@ const Photo = (): JSX.Element => {
         .eq("id", id);
     };
 
-    const fetchComments = async () => {
-      return await supabase
-        .from<Comment>("comments")
-        .select("id, content, created_at, user:user_id (id, name)")
-        .eq("photo_id", id);
-    };
     const fetchFavoriteStatus = async () => {
       return await supabase
         .from("favorites")
@@ -82,57 +94,44 @@ const Photo = (): JSX.Element => {
         .eq("photo_id", id);
     };
 
-    const handleConcurrentPromises = async (
-      cb: (
-        responses: [
-          PostgrestResponse<PhotoResource>,
-          PostgrestResponse<Comment>,
-          PostgrestResponse<any>
-        ]
-      ) => void
-    ) => {
+    const handleConcurrentRequests = async () => {
       try {
         dispatch({ type: PhotoActionTypes.SET_LOADING, payload: true });
-        const responses = await Promise.all([
+        const [
+          fetchPhotoResponse,
+          fetchCommentsResponse,
+          fetchFavoriteStatusResponse,
+        ] = await Promise.all([
           fetchPhoto(),
-          fetchComments(),
+          fetchComments(0, index - 1),
           fetchFavoriteStatus(),
         ]);
+        if (fetchPhotoResponse.error) throw fetchPhotoResponse.error;
+        if (fetchCommentsResponse.error) throw fetchCommentsResponse.error;
+        if (fetchFavoriteStatusResponse.error)
+          throw fetchFavoriteStatusResponse.error;
 
-        cb(responses);
-      } catch (error) {
-        console.trace(error);
+        dispatch({
+          type: PhotoActionTypes.FETCH_PHOTO,
+          payload: fetchPhotoResponse.data[0],
+        });
+        dispatch({
+          type: PhotoActionTypes.FETCH_COMMENTS,
+          payload: fetchCommentsResponse.data,
+        });
+        dispatch({
+          type: PhotoActionTypes.FETCH_FAVORITE_STATUS,
+          payload: fetchFavoriteStatusResponse.data.length === 1,
+        });
+      } catch (err) {
+        console.trace(err);
       } finally {
         dispatch({ type: PhotoActionTypes.SET_LOADING, payload: false });
       }
     };
 
-    handleConcurrentPromises((responses) => {
-      const [
-        fetchPhotoResponse,
-        fetchCommentsResponse,
-        fetchFavoriteStatusResponse,
-      ] = responses;
-      if (fetchPhotoResponse.error) throw fetchCommentsResponse.error;
-      if (fetchCommentsResponse.error) throw fetchCommentsResponse.error;
-      if (fetchFavoriteStatusResponse.error)
-        throw fetchFavoriteStatusResponse.error;
-
-      dispatch({
-        type: PhotoActionTypes.FETCH_PHOTO,
-        payload: fetchPhotoResponse.data[0],
-      });
-      dispatch({
-        type: PhotoActionTypes.FETCH_COMMENTS,
-        payload: fetchCommentsResponse.data,
-      });
-      dispatch({
-        type: PhotoActionTypes.FETCH_FAVORITE_STATUS,
-        payload: fetchFavoriteStatusResponse.data.length === 1,
-      });
-      dispatch({ type: PhotoActionTypes.SET_LOADING, payload: false });
-    });
-  }, [id, user?.id, supabase]);
+    handleConcurrentRequests();
+  }, [id, user?.id, supabase, index, fetchComments]);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
@@ -141,6 +140,17 @@ const Photo = (): JSX.Element => {
   const handleOpen = useCallback(() => {
     setIsOpen(true);
   }, []);
+
+  async function handleLoadMoreComments() {
+    const newIndex = index + LIMIT;
+    const response = await fetchComments(index, newIndex - 1);
+    if (response.error) throw response.error;
+    setIndex(newIndex);
+    dispatch({
+      type: PhotoActionTypes.FETCH_COMMENTS,
+      payload: response.data,
+    });
+  }
 
   const updateFavoriteStatus = useCallback(async () => {
     try {
@@ -180,8 +190,6 @@ const Photo = (): JSX.Element => {
       console.trace(err);
     }
   }, [id, supabase, user?.id]);
-
-  console.log(isLoading);
 
   return (
     <Fragment>
@@ -224,6 +232,11 @@ const Photo = (): JSX.Element => {
 
             {/* List of Comments */}
             <CommentsList comments={comments} />
+            <button
+              onClick={handleLoadMoreComments}
+              className='block mx-auto my-2'>
+              Load more comments
+            </button>
           </div>
         </>
       )}

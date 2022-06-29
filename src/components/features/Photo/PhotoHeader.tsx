@@ -22,14 +22,20 @@ const PhotoHeader = ({
   return (
     <Header title={isLoading ? <LoadingIcon /> : title} canGoBack>
       <div className='pr-1 flex items-center'>
-        <button type='button' className='mr-9' onClick={updateFavoriteStatus}>
+        <button
+          type='button'
+          className='mr-9'
+          onClick={updateFavoriteStatus}
+          name='favorite'
+          aria-label='favorite'>
           <StarIcon
+            data-testid='star'
             className={`h-6 w-6 text-yellow-500 transition-[fill] duration-200 ease-in-out ${
               isFavorited ? "fill-yellow-500" : "fill-transparent"
             }`}
           />
         </button>
-        <button type='button' onClick={handleOpen}>
+        <button type='button' onClick={handleOpen} aria-label='edit'>
           <PencilIcon className='h-6 w-6 text-orange-500' />
         </button>
       </div>
