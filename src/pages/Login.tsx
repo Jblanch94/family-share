@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import LoginForm from "../components/features/LoginForm";
 import FormErrorText from "../components/core/FormErrorText";
@@ -26,6 +26,16 @@ const Login = (): JSX.Element => {
   const methods = useForm<LoginFormValues>({ defaultValues });
   const { signin, setUser } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  let from = useMemo(() => {
+    const state = location.state as { from: Location };
+
+    if (state && state.from) {
+      return state.from;
+    }
+
+    return "/";
+  }, [location.state]);
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
@@ -34,7 +44,7 @@ const Login = (): JSX.Element => {
       if (error) throw error;
 
       setServerError(null);
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       const error = err as ApiError;
       setServerError(error.message);
@@ -60,7 +70,7 @@ const Login = (): JSX.Element => {
               color='primary'
               size='medium'
               fullWidth>
-              {loading ? <LoadingIcon /> : "Login"}
+              {loading ? <LoadingIcon color='white' size='small' /> : "Login"}
             </Button>
           </form>
         </FormProvider>

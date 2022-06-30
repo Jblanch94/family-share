@@ -9,8 +9,11 @@ import Layout from "../layout/Layout";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import AddAlbum from "../pages/AddAlbum";
+import withAuth from "../components/core/withAuth";
+import { useAuth } from "../contexts/AuthContext";
 
 const Routes = (): JSX.Element => {
+  const { user } = useAuth();
   return (
     <RouterRoutes>
       <Route
@@ -19,13 +22,13 @@ const Routes = (): JSX.Element => {
             <Outlet />
           </Layout>
         }>
-        <Route path='/' element={<Albums />} />
-        <Route path='/albums/:id' element={<Album />} />
-        <Route path='/albums/add' element={<AddAlbum />} />
-        <Route path='/favorites' element={<Favorites />} />
-        <Route path='/photos/:id' element={<Photo />} />
-        <Route path='/photos/add' element={<AddPhoto />} />
-        <Route path='/settings' element={<Settings />} />
+        <Route path='/' element={user ? <Albums /> : <div>Landing Page</div>} />
+        <Route path='/albums/:id' element={withAuth(Album)} />
+        <Route path='/albums/add' element={withAuth(AddAlbum)} />
+        <Route path='/favorites' element={withAuth(Favorites)} />
+        <Route path='/photos/:id' element={withAuth(Photo)} />
+        <Route path='/photos/add' element={withAuth(AddPhoto)} />
+        <Route path='/settings' element={withAuth(Settings)} />
         <Route path='/auth'>
           <Route path='sign-up' element={<SignUp />} />
           <Route path='login' element={<Login />} />
