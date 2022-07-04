@@ -3,3 +3,4 @@ export * from "./Album";
 export * from "./Photo";
 export * from "./Profile";
 export * from "./Comment";
+export * from "./Favorite";

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
+import { useSupabase } from "../../contexts/SupabaseContext";
 
 const withAuth = (WrappedComponent) => {
   const ComponentWithAuth = () => {
@@ -9,6 +10,7 @@ const withAuth = (WrappedComponent) => {
     const navigate = useNavigate();
     const location = useLocation();
     const auth = useAuth();
+    const { supabase } = useSupabase();
 
     useEffect(() => {
       if (!auth.user) {
@@ -16,7 +18,7 @@ const withAuth = (WrappedComponent) => {
       }
     }, [auth.user, location, navigate]);
 
-    return <WrappedComponent {...auth} />;
+    return <WrappedComponent {...auth} supabase={supabase} />;
   };
 
   return <ComponentWithAuth />;

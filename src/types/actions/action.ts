@@ -2,8 +2,9 @@ import {
   AlbumsActionTypes as ActionTypes,
   AlbumActionType,
   PhotoActionTypes,
+  FavoritesActionType,
 } from "./types";
-import { Album, Profile, Photo, Comment } from "../resources";
+import { Album, Profile, Photo, Comment, Favorite } from "../resources";
 
 export type AlbumsAction =
   | { type: ActionTypes.FETCH_PROFILE; payload: Profile }
@@ -26,3 +27,11 @@ export type PhotoAction =
   | { type: PhotoActionTypes.UPDATE_PHOTO; payload: Photo }
   | { type: PhotoActionTypes.FETCH_FAVORITE_STATUS; payload: boolean }
   | { type: PhotoActionTypes.UPDATE_FAVORITE_STATUS; payload: boolean };
+
+export type FavoritesAction =
+  | {
+      type: FavoritesActionType.SET_LOADING;
+      payload: boolean;
+    }
+  | { type: FavoritesActionType.FETCH_PHOTOS; payload: Photo[] }
+  | { type: FavoritesActionType.REMOVE_FAVORITE; payload: Favorite };
