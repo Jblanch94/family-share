@@ -41,7 +41,7 @@ const Input = ({
         aria-invalid={error ? "true" : "false"}
         {...rest}
         {...register(name, validationRules)}
-        className={`shadow appearance-none rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-blue-300 ${
+        className={`appearance-none rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-blue-300 shadow ${
           error ? "border-red-500 border-2 focus:outline-red-500" : undefined
         }`}
       />

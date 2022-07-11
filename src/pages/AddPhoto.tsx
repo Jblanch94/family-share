@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { SupabaseClient, User } from "@supabase/supabase-js";
 
 import AddPhotoForm from "../components/features/AddPhotoForm";
 import Header from "../components/features/Header";
 import Button from "../components/core/Button";
 import LoadingIcon from "../components/icons/LoadingIcon";
+import { Album } from "../types/resources";
 import { AddPhotoFormState } from "../types/forms";
-import { useSupabase } from "../contexts/SupabaseContext";
-import { useAuth } from "../contexts/AuthContext";
+import useProfile from "../hooks/useProfile";
 import useSupabaseStorage from "../hooks/useSupabaseStorage";
-import { Profile, Album } from "../types/resources";
+import CenteredFormContainer from "../components/core/CenteredFormContainer";
 
-const AddPhoto = (): JSX.Element => {
-  const [profile, setProfile] = useState<Profile | null>(null);
+interface Props {
+  supabase: SupabaseClient;
+  user: User;
+}
+
+const AddPhoto = ({ user, supabase }: Props): JSX.Element => {
   const [albums, setAlbums] = useState<Album[]>([]);
-  const { supabase } = useSupabase();
-  const { user } = useAuth();
   const { fetchBucket, uploadPhoto, fetchSignedUrl, createPhoto } =
     useSupabaseStorage(supabase);
+  const profile = useProfile(user?.id, supabase);
   const methods = useForm<AddPhotoFormState>();
   const navigate = useNavigate();
 
@@ -58,21 +62,6 @@ const AddPhoto = (): JSX.Element => {
     }
   };
 
-  // fetch family id with the id of the current user
-  useEffect(() => {
-    if (!user) throw new Error("User not logged in");
-    const fetchProfile = async () => {
-      const { data, error } = await supabase
-        .from<Profile>("profiles")
-        .select(`id, name, family_id`)
-        .eq("id", user?.id);
-      if (error) throw error;
-      setProfile(data[0]);
-    };
-
-    fetchProfile();
-  }, [supabase, user]);
-
   useEffect(() => {
     const fetchAlbumsByFamilyId = async () => {
       if (profile === null) throw new Error("Profile is null");
@@ -90,23 +79,21 @@ const AddPhoto = (): JSX.Element => {
   return (
     <>
       <Header title='Add Photo' />
-      <section className='flex justify-center items-center py-2 h-screen'>
-        <div className='bg-white shadow-xl rounded px-8 py-4 w-96'>
-          <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <AddPhotoForm albums={albums} />
-              <Button
-                variant='contained'
-                type='submit'
-                color='primary'
-                size='medium'
-                fullWidth>
-                {methods.formState.isSubmitting ? <LoadingIcon /> : "Add Photo"}
-              </Button>
-            </form>
-          </FormProvider>
-        </div>
-      </section>
+      <CenteredFormContainer>
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <AddPhotoForm albums={albums} />
+            <Button
+              variant='contained'
+              type='submit'
+              color='primary'
+              size='medium'
+              fullWidth>
+              {methods.formState.isSubmitting ? <LoadingIcon /> : "Add Photo"}
+            </Button>
+          </form>
+        </FormProvider>
+      </CenteredFormContainer>
     </>
   );
 };

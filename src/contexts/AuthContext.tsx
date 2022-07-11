@@ -54,8 +54,8 @@ const AuthProvider = ({
   const [user, setUser] = useState<User | null>(initialUser ?? null);
   const { supabase } = useSupabase();
 
-  const signOut = (): void => {
-    supabase.auth.signOut();
+  const signOut = async (): Promise<void> => {
+    await supabase.auth.signOut();
   };
 
   const signin = async (email: string, password: string) => {

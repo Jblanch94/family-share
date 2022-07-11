@@ -11,6 +11,7 @@ import SignUpForm from "../../components/features/SignUpForm";
 import FormErrorText from "../../components/core/FormErrorText";
 import "./sign-up.css";
 import { useAuth } from "../../contexts/AuthContext";
+import CenteredFormContainer from "../../components/core/CenteredFormContainer";
 
 const SignUp = (): JSX.Element => {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -43,27 +44,25 @@ const SignUp = (): JSX.Element => {
   };
 
   return (
-    <section className=' flex justify-center items-center py-2 h-screen'>
-      <div className='bg-white shadow-xl rounded px-8 py-4 w-96'>
-        <h1 className='mb-2 text-center text-lg font-bold'>
-          Sign Up with Family Share
-        </h1>
-        {serverError && <FormErrorText text={serverError} showError />}
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <SignUpForm />
-            <Button
-              variant='contained'
-              type='submit'
-              color='primary'
-              size='medium'
-              fullWidth>
-              {loading ? <LoadingIcon /> : "Sign Up"}
-            </Button>
-          </form>
-        </FormProvider>
-      </div>
-    </section>
+    <CenteredFormContainer>
+      <h1 className='mb-2 text-center text-lg font-bold'>
+        Sign Up with Family Share
+      </h1>
+      {serverError && <FormErrorText text={serverError} showError />}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <SignUpForm />
+          <Button
+            variant='contained'
+            type='submit'
+            color='primary'
+            size='medium'
+            fullWidth>
+            {loading ? <LoadingIcon /> : "Sign Up"}
+          </Button>
+        </form>
+      </FormProvider>
+    </CenteredFormContainer>
   );
 };
 

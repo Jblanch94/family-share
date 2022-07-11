@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 interface ButtonProps {
   variant?: "contained" | "outlined";
-  color?: "primary" | "secondary";
+  color?: "primary" | "secondary" | "danger";
   type?: "submit" | "button" | "reset" | undefined;
   size?: "small" | "medium" | "large";
   fullWidth?: boolean;
@@ -25,17 +25,21 @@ const Button = ({
 }: ButtonProps): JSX.Element => {
   const disabledClasses = `${disabled ? "bg-disabled cursor-not-allowed" : ""}`;
   const classes = `bold ${
-    fullWidth ? "w-full" : undefined
+    fullWidth ? "w-full" : ""
   } rounded text-white hover:opacity-80`;
   const getColorClasses = (): string => {
     if (variant === "contained" && color === "primary") {
-      return "bg-blue-600";
+      return "bg-blue-500";
     } else if (variant === "contained" && color === "secondary") {
       return "bg-orange-600";
     } else if (variant === "outlined" && color === "primary") {
-      return "bg-white border-blue-600 border text-blue-600";
+      return "bg-white border-blue-500 border text-blue-500";
     } else if (variant === "outlined" && color === "secondary") {
       return "bg-white border-orange-600 border text-orange-600";
+    } else if (variant === "contained" && color === "danger") {
+      return "bg-red-600";
+    } else if (variant === "outlined" && color === "danger") {
+      return "bg-white border-red-600 border text-red-600";
     }
 
     return "";

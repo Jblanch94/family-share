@@ -1,9 +1,9 @@
 import { useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 import Header from "../components/features/Header";
 import AlbumPhotosList from "../components/features/Album/AlbumPhotosList";
-import { useSupabase } from "../contexts/SupabaseContext";
 import { Photo } from "../types/resources";
 import {
   AlbumAction as Action,
@@ -33,7 +33,11 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-const Album = (): JSX.Element => {
+interface Props {
+  supabase: SupabaseClient;
+}
+
+const Album = ({ supabase, ...rest }: Props): JSX.Element => {
   const initialState: State = {
     loading: false,
     error: null,
@@ -42,7 +46,6 @@ const Album = (): JSX.Element => {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
   const { id } = useParams();
-  const { supabase } = useSupabase();
 
   // fetch all the photos associated with the album
   useEffect(() => {

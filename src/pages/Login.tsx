@@ -9,6 +9,7 @@ import LoadingIcon from "../components/icons/LoadingIcon";
 import Link from "../components/core/Link";
 import { useAuth } from "../contexts/AuthContext";
 import { ApiError } from "@supabase/supabase-js";
+import CenteredFormContainer from "../components/core/CenteredFormContainer";
 
 interface LoginFormValues {
   email: string;
@@ -55,35 +56,33 @@ const Login = (): JSX.Element => {
   };
 
   return (
-    <section className=' flex justify-center items-center py-2 h-screen'>
-      <div className='bg-white shadow-xl rounded px-8 py-4 w-96'>
-        <h1 className='mb-2 text-center text-lg font-bold'>
-          Login with Family Share
-        </h1>
-        {serverError && <FormErrorText text={serverError} showError />}
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <LoginForm />
-            <Button
-              variant='contained'
-              type='submit'
-              color='primary'
-              size='medium'
-              fullWidth>
-              {loading ? <LoadingIcon color='white' size='small' /> : "Login"}
-            </Button>
-          </form>
-        </FormProvider>
-        <div className='mt-2'>
-          <span>Don't have an account? </span>
-          <Link
-            to='/auth/sign-up'
-            className='!text-base text-blue-600 hover:opacity-80'>
-            Sign Up
-          </Link>
-        </div>
+    <CenteredFormContainer>
+      <h1 className='mb-2 text-center text-lg font-bold'>
+        Login with Family Share
+      </h1>
+      {serverError && <FormErrorText text={serverError} showError />}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <LoginForm />
+          <Button
+            variant='contained'
+            type='submit'
+            color='primary'
+            size='medium'
+            fullWidth>
+            {loading ? <LoadingIcon color='white' size='small' /> : "Login"}
+          </Button>
+        </form>
+      </FormProvider>
+      <div className='mt-2'>
+        <span>Don't have an account? </span>
+        <Link
+          to='/auth/sign-up'
+          className='!text-base text-blue-600 hover:opacity-80'>
+          Sign Up
+        </Link>
       </div>
-    </section>
+    </CenteredFormContainer>
   );
 };
 
