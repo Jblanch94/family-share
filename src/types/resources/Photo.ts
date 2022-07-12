@@ -1,3 +1,5 @@
+import { Album } from "./Album";
+
 export interface Photo {
   id: string;
   path: string;
@@ -7,4 +9,5 @@ export interface Photo {
   album_id: string;
   created_at?: Date;
   updated_at?: Date;
+  album?: Album;
 }

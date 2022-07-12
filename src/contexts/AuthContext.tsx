@@ -119,12 +119,9 @@ const AuthProvider = ({
   };
 
   useEffect(() => {
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        console.log(event);
-        setUser(session?.user ?? null);
-      }
-    );
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null);
+    });
 
     return () => listener?.unsubscribe();
   }, [supabase.auth, user]);

@@ -4,7 +4,7 @@ import {
   PhotoActionTypes,
   FavoritesActionType,
 } from "./types";
-import { Album, Profile, Photo, Comment, Favorite } from "../resources";
+import { Profile, Photo, Comment, Favorite, Album } from "../resources";
 
 export type AlbumsAction =
   | { type: ActionTypes.FETCH_PROFILE; payload: Profile }

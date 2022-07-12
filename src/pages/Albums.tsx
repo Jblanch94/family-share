@@ -68,29 +68,13 @@ export default function Albums({ supabase, user }: Props): JSX.Element {
     }
   };
 
-  // fetch the profile of the currently logged in user
-  useEffect(() => {
-    const fetchProfile = async () => {
-      dispatch({ type: ActionTypes.SET_LOADING, payload: true });
-      if (user === null) throw new Error("User is not logged in!");
-      const { data, error } = await supabase
-        .from("profiles")
-        .select(`id, name, family_id`)
-        .eq("id", user.id);
-      if (error) throw error;
-      dispatch({ type: ActionTypes.FETCH_PROFILE, payload: data[0] });
-    };
-
-    fetchProfile();
-  }, [supabase, user, dispatch]);
-
   // fetch all albums associated with the family of the logged in user
   useEffect(() => {
     const fetchAlbums = async () => {
-      if (profile === null) throw new Error("Profile is null");
+      if (!profile) throw new Error("Could not fetch User Profile");
       const { data, error } = await supabase
         .from<Album>("albums")
-        .select(`id, name, created_at`)
+        .select(`id, name, created_at, photos(id, title, created_at)`)
         .eq("family_id", profile.family_id);
       if (error) throw error;
       dispatch({ type: ActionTypes.FETCH_ALBUMS, payload: data });

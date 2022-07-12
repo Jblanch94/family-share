@@ -3,6 +3,7 @@ export enum AlbumsActionTypes {
   FETCH_PROFILE = "FETCH_PROFILE",
   FETCH_ALBUMS = "FETCH_ALBUMS",
   SET_LOADING = "SET_LOADING",
+  FETCH_NUM_PHOTOS = "FETCH_NUM_PHOTOS",
 }
 
 export enum AlbumActionType {

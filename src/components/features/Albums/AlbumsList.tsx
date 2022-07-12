@@ -32,7 +32,7 @@ const AlbumsList = ({ loading, albums }: AlbumsListProps) => {
                 key={album.id}
                 id={album.id}
                 name={album.name}
-                numPhotos={5}
+                numPhotos={album.photos.length}
               />
             );
           })}
