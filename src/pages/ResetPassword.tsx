@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import CenteredFormContainer from "../components/core/CenteredFormContainer";
 import Input from "../components/core/Input";
-import Button from "../components/core/Button";
 import { useSupabase } from "../contexts/SupabaseContext";
-import LoadingIcon from "../components/icons/LoadingIcon";
+import LoadingFormButton from "../components/core/LoadingformButton";
 
 export default function ResetPassword(): JSX.Element {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -97,13 +96,9 @@ export default function ResetPassword(): JSX.Element {
             },
           }}
         />
-        <Button type='submit' variant='contained' color='primary' fullWidth>
-          {methods.formState.isSubmitting ? (
-            <LoadingIcon size='small' color='white' />
-          ) : (
-            "Reset Password"
-          )}
-        </Button>
+        <LoadingFormButton isLoading={methods.formState.isSubmitting}>
+          Reset Password
+        </LoadingFormButton>
       </form>
     </CenteredFormContainer>
   );

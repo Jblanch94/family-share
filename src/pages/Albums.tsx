@@ -39,7 +39,7 @@ interface Props {
   user: User;
 }
 
-const Albums = ({ supabase, user }: Props): JSX.Element => {
+export default function Albums({ supabase, user }: Props): JSX.Element {
   const initialState = {
     loading: false,
     error: undefined,
@@ -118,6 +118,4 @@ const Albums = ({ supabase, user }: Props): JSX.Element => {
       </Link>
     </>
   );
-};
-
-export default Albums;
+}

@@ -37,7 +37,7 @@ interface Props {
   supabase: SupabaseClient;
 }
 
-const Album = ({ supabase, ...rest }: Props): JSX.Element => {
+export default function Album({ supabase, ...rest }: Props): JSX.Element {
   const initialState: State = {
     loading: false,
     error: null,
@@ -93,6 +93,4 @@ const Album = ({ supabase, ...rest }: Props): JSX.Element => {
       </div>
     </>
   );
-};
-
-export default Album;
+}

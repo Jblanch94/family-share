@@ -2,10 +2,9 @@ import { useForm, FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import Input from "../components/core/Input";
-import Button from "../components/core/Button";
 import { useSupabase } from "../contexts/SupabaseContext";
-import LoadingIcon from "../components/icons/LoadingIcon";
 import CenteredFormContainer from "../components/core/CenteredFormContainer";
+import LoadingFormButton from "../components/core/LoadingformButton";
 
 export default function SignUpPostInvite() {
   const navigate = useNavigate();
@@ -99,13 +98,9 @@ export default function SignUpPostInvite() {
             },
           }}
         />
-        <Button type='submit' variant='contained' color='primary' fullWidth>
-          {methods.formState.isSubmitting ? (
-            <LoadingIcon size='small' color='white' />
-          ) : (
-            "Create Profile"
-          )}
-        </Button>
+        <LoadingFormButton isLoading={methods.formState.isSubmitting}>
+          Create Profile
+        </LoadingFormButton>
       </form>
     </CenteredFormContainer>
   );

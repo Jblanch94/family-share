@@ -4,10 +4,9 @@ import { ApiError, SupabaseClient, User } from "@supabase/supabase-js";
 
 import Header from "../components/features/Header";
 import AddAlbumForm from "../components/features/AddAlbumForm";
-import Button from "../components/core/Button";
 import useProfile from "../hooks/useProfile";
-import LoadingIcon from "../components/icons/LoadingIcon";
 import CenteredFormContainer from "../components/core/CenteredFormContainer";
+import LoadingFormButton from "../components/core/LoadingformButton";
 
 interface AlbumValues {
   name: string;
@@ -25,7 +24,7 @@ interface Props {
   user: User;
 }
 
-const AddAlbum = ({ supabase, user }: Props): JSX.Element => {
+export default function AddAlbum({ supabase, user }: Props): JSX.Element {
   const defaultValues = {
     name: "",
   };
@@ -65,19 +64,12 @@ const AddAlbum = ({ supabase, user }: Props): JSX.Element => {
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <AddAlbumForm />
-            <Button
-              variant='contained'
-              type='submit'
-              color='primary'
-              size='medium'
-              fullWidth>
-              {methods.formState.isSubmitting ? <LoadingIcon /> : "Add Album"}
-            </Button>
+            <LoadingFormButton isLoading={methods.formState.isSubmitting}>
+              Add Album
+            </LoadingFormButton>
           </form>
         </FormProvider>
       </CenteredFormContainer>
     </>
   );
-};
-
-export default AddAlbum;
+}

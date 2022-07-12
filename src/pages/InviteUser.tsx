@@ -6,10 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 
 import Header from "../components/features/Header";
 import Input from "../components/core/Input";
-import Button from "../components/core/Button";
-import LoadingIcon from "../components/icons/LoadingIcon";
 import { supabaseAdmin } from "../config/supabaseAdmin";
 import useProfile from "../hooks/useProfile";
+import LoadingFormButton from "../components/core/LoadingformButton";
 
 interface Props {
   user: User;
@@ -104,18 +103,9 @@ export default function InviteUser({ user, supabase }: Props): JSX.Element {
               )}></Controller>
             <span>Admin</span>
           </div>
-          <Button
-            type='submit'
-            variant='contained'
-            color='primary'
-            size='large'
-            classes='text-xl sm:text-2xl'>
-            {methods.formState.isSubmitting ? (
-              <LoadingIcon size='small' color='white' />
-            ) : (
-              "Invite User"
-            )}
-          </Button>
+          <LoadingFormButton isLoading={methods.formState.isSubmitting}>
+            Invite User
+          </LoadingFormButton>
         </form>
       </section>
     </>

@@ -39,7 +39,7 @@ function reducer(state: State, action: Action) {
   }
 }
 
-const Favorites = ({ user, supabase }: Props): JSX.Element => {
+export default function Favorites({ user, supabase }: Props): JSX.Element {
   const initialState: State = { isLoading: false, photos: [] };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -93,6 +93,4 @@ const Favorites = ({ user, supabase }: Props): JSX.Element => {
       />
     </>
   );
-};
-
-export default Favorites;
+}

@@ -5,20 +5,19 @@ import { SupabaseClient, User } from "@supabase/supabase-js";
 
 import AddPhotoForm from "../components/features/AddPhotoForm";
 import Header from "../components/features/Header";
-import Button from "../components/core/Button";
-import LoadingIcon from "../components/icons/LoadingIcon";
 import { Album } from "../types/resources";
 import { AddPhotoFormState } from "../types/forms";
 import useProfile from "../hooks/useProfile";
 import useSupabaseStorage from "../hooks/useSupabaseStorage";
 import CenteredFormContainer from "../components/core/CenteredFormContainer";
+import LoadingFormButton from "../components/core/LoadingformButton";
 
 interface Props {
   supabase: SupabaseClient;
   user: User;
 }
 
-const AddPhoto = ({ user, supabase }: Props): JSX.Element => {
+export default function AddPhoto({ user, supabase }: Props): JSX.Element {
   const [albums, setAlbums] = useState<Album[]>([]);
   const { fetchBucket, uploadPhoto, fetchSignedUrl, createPhoto } =
     useSupabaseStorage(supabase);
@@ -83,19 +82,12 @@ const AddPhoto = ({ user, supabase }: Props): JSX.Element => {
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <AddPhotoForm albums={albums} />
-            <Button
-              variant='contained'
-              type='submit'
-              color='primary'
-              size='medium'
-              fullWidth>
-              {methods.formState.isSubmitting ? <LoadingIcon /> : "Add Photo"}
-            </Button>
+            <LoadingFormButton isLoading={methods.formState.isSubmitting}>
+              Add Photo
+            </LoadingFormButton>
           </form>
         </FormProvider>
       </CenteredFormContainer>
     </>
   );
-};
-
-export default AddPhoto;
+}
