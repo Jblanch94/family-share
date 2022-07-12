@@ -13,6 +13,8 @@ import AddAlbum from "../pages/AddAlbum";
 import withAuth from "../components/core/withAuth";
 import { useAuth } from "../contexts/AuthContext";
 import SignUpPostInvite from "../pages/SignUpPostInvite";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 
 const Routes = (): JSX.Element => {
   const { user } = useAuth();
@@ -39,6 +41,8 @@ const Routes = (): JSX.Element => {
         <Route path='/auth'>
           <Route path='sign-up' element={<SignUp />} />
           <Route path='login' element={<Login />} />
+          <Route path='forgot-password' element={<ForgotPassword />} />
+          <Route path='reset-password' element={<ResetPassword />} />
         </Route>
       </Route>
     </RouterRoutes>

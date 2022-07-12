@@ -81,6 +81,11 @@ const Login = (): JSX.Element => {
           className='!text-base text-blue-600 hover:opacity-80'>
           Sign Up
         </Link>
+        <Link
+          to='/auth/forgot-password'
+          className='!text-base hover:opacity-80 text-orange-500 block mt-2'>
+          Forgot password?
+        </Link>
       </div>
     </CenteredFormContainer>
   );
