@@ -1,4 +1,6 @@
+import { useRef, useCallback } from "react";
 import { Routes as RouterRoutes, Route, Outlet } from "react-router-dom";
+
 import Albums from "../pages/Albums";
 import Album from "../pages/Album";
 import Favorites from "../pages/Favorites";
@@ -15,20 +17,29 @@ import { useAuth } from "../contexts/AuthContext";
 import SignUpPostInvite from "../pages/SignUpPostInvite";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import Landing from "../pages/Landing";
 
 const Routes = (): JSX.Element => {
   const { user } = useAuth();
+  const featuresRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToFeatures = useCallback(() => {
+    if (featuresRef) {
+      featuresRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return (
     <RouterRoutes>
       <Route
         element={
-          <Layout>
+          <Layout scrollToFeatures={scrollToFeatures}>
             <Outlet />
           </Layout>
         }>
         <Route
           path='/'
-          element={user ? withAuth(Albums) : <div>Landing Page</div>}
+          element={user ? withAuth(Albums) : <Landing ref={featuresRef} />}
         />
         <Route path='/albums/:id' element={withAuth(Album)} />
         <Route path='/albums/add' element={withAuth(AddAlbum)} />

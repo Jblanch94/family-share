@@ -1,5 +1,4 @@
 module.exports = {
-  important: true,
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -13,6 +12,9 @@ module.exports = {
         disabled: "rgba(0, 0, 0, 0.26)",
         commentGray: "#89898a",
         commentDateGray: "#b6b6b6",
+      },
+      backgroundImage: {
+        hero: "url('../assets/img/hero.jpg')",
       },
     },
   },

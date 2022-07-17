@@ -4,16 +4,18 @@ import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import { useAuth } from "../contexts/AuthContext";
 
-interface LayoutProps {
+interface Props {
   children: ReactNode;
+  scrollToFeatures: VoidFunction;
 }
 
-const Layout = ({ children }: LayoutProps): JSX.Element => {
+const Layout = ({ children, scrollToFeatures }: Props): JSX.Element => {
   const { user } = useAuth();
+
   return (
     <>
-      {user ? <Sidebar /> : <Navbar />}
-      <main className='pl-32 sm:pl-64'>{children}</main>
+      {user ? <Sidebar /> : <Navbar scrollToFeatures={scrollToFeatures} />}
+      <main className={`${user ? "pl-32 sm:pl-64" : "pt-20"}`}>{children}</main>
     </>
   );
 };
