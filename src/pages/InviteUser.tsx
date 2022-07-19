@@ -40,7 +40,7 @@ export default function InviteUser({ user, supabase }: Props): JSX.Element {
           redirectTo:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000/settings/invite/sign-up"
-              : "",
+              : "https://family-share.vercel.app/settings/invite/sign-up",
           data: { isadmin: formData.isadmin, familyId: profile?.family_id },
         }
       );

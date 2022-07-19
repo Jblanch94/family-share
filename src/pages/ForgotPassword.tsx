@@ -24,7 +24,7 @@ export default function ForgotPassword() {
           redirectTo:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000/auth/reset-password"
-              : "",
+              : "https://family-share.vercel.app/auth/reset-password",
         }
       );
       if (error) throw error;

@@ -1,23 +1,24 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, lazy } from "react";
 import { Routes as RouterRoutes, Route, Outlet } from "react-router-dom";
 
-import Albums from "../pages/Albums";
-import Album from "../pages/Album";
-import Favorites from "../pages/Favorites";
-import Photo from "../pages/Photo";
-import AddPhoto from "../pages/AddPhoto";
-import Settings from "../pages/Settings";
-import InviteUser from "../pages/InviteUser";
-import Layout from "../layout/Layout";
-import SignUp from "../pages/SignUp";
-import Login from "../pages/Login";
-import AddAlbum from "../pages/AddAlbum";
 import withAuth from "../components/core/withAuth";
 import { useAuth } from "../contexts/AuthContext";
-import SignUpPostInvite from "../pages/SignUpPostInvite";
-import ForgotPassword from "../pages/ForgotPassword";
-import ResetPassword from "../pages/ResetPassword";
-import Landing from "../pages/Landing";
+
+const Albums = lazy(() => import("../pages/Albums"));
+const Album = lazy(() => import("../pages/Album"));
+const Favorites = lazy(() => import("../pages/Favorites"));
+const Photo = lazy(() => import("../pages/Photo"));
+const AddPhoto = lazy(() => import("../pages/AddPhoto"));
+const Settings = lazy(() => import("../pages/Settings"));
+const InviteUser = lazy(() => import("../pages/InviteUser"));
+const Layout = lazy(() => import("../layout/Layout"));
+const SignUp = lazy(() => import("../pages/SignUp"));
+const Login = lazy(() => import("../pages/Login"));
+const AddAlbum = lazy(() => import("../pages/AddAlbum"));
+const SignUpPostInvite = lazy(() => import("../pages/SignUpPostInvite"));
+const ForgotPassword = lazy(() => import("../pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("../pages/ResetPassword"));
+const Landing = lazy(() => import("../pages/Landing"));
 
 const Routes = (): JSX.Element => {
   const { user } = useAuth();

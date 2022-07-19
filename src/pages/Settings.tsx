@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState, useCallback } from "react";
 import { User, SupabaseClient } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
 import Header from "../components/features/Header";
 import InviteMember from "../components/features/Settings/InviteMember";
@@ -20,11 +21,17 @@ interface Props {
 const Settings = ({ user, supabase, signOut }: Props): JSX.Element => {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const currentProfile = useProfile(user?.id, supabase);
 
   const handleClick = useCallback(async () => {
-    await signOut();
-  }, [signOut]);
+    try {
+      await signOut();
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.trace(err);
+    }
+  }, [signOut, navigate]);
 
   useEffect(() => {
     const fetchFamilyUsers = async () => {

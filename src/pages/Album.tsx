@@ -88,9 +88,8 @@ export default function Album({ supabase, ...rest }: Props): JSX.Element {
           <LoadingIcon size='large' />
         </div>
       )}
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-2 gap-x-2 mx-2 mt-2'>
-        <AlbumPhotosList photos={state.photos} />
-      </div>
+
+      <AlbumPhotosList photos={state.photos} />
     </>
   );
 }

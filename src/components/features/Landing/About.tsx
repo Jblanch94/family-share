@@ -11,6 +11,7 @@ export default function About() {
           src={require("../../../assets/img/hero.jpg")}
           alt='man hanging photos'
           className='w-full h-auto object-cover'
+          loading='lazy'
         />
       </div>
     </section>
