@@ -40,7 +40,7 @@ export default function ForgotPassword() {
         Reset your password
       </h1>
       <p className='mb-10 text-center text-black opacity-80'>
-        Enter your email and we'll send you a link to rest your password.
+        Enter your email and we'll send you a link to reset your password.
       </p>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Input
