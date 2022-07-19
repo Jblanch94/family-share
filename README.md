@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# Family Share
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Description
+Family Share is an app where users can create a "Family" account to store share photos with their family.  Users can invite other users to upload new photos to the account.
 
-## Available Scripts
+# Tech Stack
+Here's a brief high-level overview of the different technologies used to created Family Share
+* This project used React.  React is a JavaScript library for building user interfaces.
+* For styling and components it is built TailwindCss.
+* For form validation it uses the package react-hook-form which makes applying validation logic to forms a breeze.
+* For accessing data, authentication and file upload Supabase was used.
+* For data storage PostgreSQL was used as a SQL database inside the Supabase project for storing data like albums, photos, profiles, comments, etc.
 
-In the project directory, you can run:
+# Features
+Here's a high-level overview of all the features in the application
+* User Authentication
+* Viewing all albums associated with Family account [Requires Authentication]
+* Viewing all photos associated with a specific Album [Requires Authentication]
+* Viewing a Photo along with it's details [Requires Authentication]
+  * Comment on a Photo [Requires Authentication]
+  * Edit photo details [Requires Authentication]
+  * Favorite the photo [Requires Authentication]
+* Create a new Album [Requires Authentication]
+* Upload a photo to a specific Album [Requires Authentication]
+* View all of your favorited Photos [Requires Authentication]
+* Create a new post [Requires Authentication]
+* Invite another user to the Family account [Requires Authentication and Admin Permission]
+* Update other user's that belong to the same account Admin status [Requires Authentication and Admin Permission]
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Here's a list features that are not implemented but are a work in progress
+* Viewing a user's profile - which lists out the number of Photos uploaded created and number of comments made
+* Support for a nested comment system
+* Mobile version of the app
