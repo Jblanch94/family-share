@@ -19,24 +19,24 @@ const AlbumsList = ({ loading, albums }: AlbumsListProps) => {
   }
   return (
     <>
-      {loading && (
+      {loading ? (
         <div className='flex justify-center items-center mt-12'>
           <LoadingIcon size='large' />
         </div>
-      )}
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-2 gap-x-2 mx-2'>
-        {!loading &&
-          albums?.map((album) => {
+      ) : (
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-2 gap-x-2 mx-2'>
+          {albums?.map((album) => {
             return (
               <AlbumsListItem
                 key={album.id}
                 id={album.id}
                 name={album.name}
-                numPhotos={album.photos.length}
+                numPhotos={album?.photos?.length ?? 0}
               />
             );
           })}
-      </div>
+        </div>
+      )}
     </>
   );
 };

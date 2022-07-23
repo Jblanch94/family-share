@@ -53,13 +53,28 @@ export default function Albums({ supabase, user }: Props): JSX.Element {
 
   const onSubmit = async (formData: SearchAlbumsFormState) => {
     try {
+      if (!profile) throw new Error("Error fetching profile");
       dispatch({ type: ActionTypes.SET_LOADING, payload: true });
+      if (!formData.name.length) {
+        const { data, error } = await supabase
+          .from<Album>("albums")
+          .select(`id, name, created_at, photos(id, title, created_at)`)
+          .eq("family_id", profile?.family_id);
+
+        if (error) throw error;
+        console.log("no text -> original list", data);
+
+        dispatch({ type: ActionTypes.FETCH_ALBUMS, payload: data });
+        return;
+      }
       const { data, error } = await supabase
-        .rpc("search_albums", {
-          album_term: formData.name,
-        })
-        .eq("family_id", profile?.family_id ?? undefined);
+        .from<Album>("albums")
+        .select(`id, name, created_at, photos(id, title, created_at)`)
+        .textSearch("name", formData.name)
+        .eq("family_id", profile?.family_id);
+
       if (error) throw error;
+
       dispatch({ type: ActionTypes.FETCH_ALBUMS, payload: data });
     } catch (err) {
       console.error(err);
